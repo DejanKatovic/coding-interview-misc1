@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  *
@@ -15,40 +15,37 @@ import React from 'react';
  *
  */
 export const App = () => {
+  return <Main />;
+};
 
-    return (
-        <Main/>
-    );
-
-}
-
-export type Theme = 'light' | 'dark';
+export type Theme = "light" | "dark";
 
 export type UseThemeToggler = (theme: Theme) => void;
 
 export type UseTheme = () => Theme;
 
+export const [theme, setTheme] = React.useState<Theme>("light");
+
+export const useThemeToggler: UseThemeToggler = (theme: Theme) => {
+  setTheme(theme);
+};
+
+export const useTheme: UseTheme = () => {
+  return theme;
+};
+
 export const Main = () => {
-
-    return (
-        <div>
-            <Settings/>
-        </div>
-    );
-
-}
+  return (
+    <div>
+      <Settings />
+    </div>
+  );
+};
 
 export const Settings = () => {
+  const toggleMode = React.useCallback(() => {
+    useThemeToggler(useTheme() === "light" ? "dark" : "light");
+  }, []);
 
-    const toggleMode = React.useCallback(() => {
-
-    }, []);
-
-    return (
-        <button onClick={toggleMode}>toggle light/dark mode</button>
-    );
-
-}
-
-
-
+  return <button onClick={toggleMode}>toggle light/dark mode</button>;
+};
